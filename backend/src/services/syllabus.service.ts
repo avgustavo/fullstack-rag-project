@@ -53,6 +53,7 @@ class SyllabusService {
           universityCode: metadata.universityCode,
           semester: metadata.semester,
           courseName: metadata.courseName,
+          fileUrl: fileUrl,
           document: doc,
           embedding: embedding,
           ingestedAt: new Date(),
