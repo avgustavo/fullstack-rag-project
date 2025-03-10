@@ -1,0 +1,17 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fullstack-rag-container
+    volumes:
+      - ..:/fullstack-rag-project:cached
+    ports:
+      - "8500:8500"
+    command: [ "sleep", "infinity" ]
+    networks:
+      - dev-network
+
+networks:
+  dev-network:
+    driver: bridge

@@ -1,0 +1,22 @@
+{
+  "name": "fullstack-rag-project",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "runServices": ["app"],
+  "workspaceFolder": "/${localWorkspaceFolderBasename}",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "ms-azuretools.vscode-docker",
+        "ms-vscode.vscode-typescript-next"
+      ]
+    }
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {},
+    "ghcr.io/devcontainers-extra/features/zsh-plugins:0": {}
+  },
+  "postCreateCommand": "bash .devcontainer/install.sh"
+}
