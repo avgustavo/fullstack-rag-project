@@ -11,7 +11,9 @@ type EmbedRequestPayload = {
   // dimensionality?: number;
 };
 
-export async function getEmbedding(data: string): Promise<number[]> {
+export type embbedingModel = "nomic-embed-text-v1" | "nomic-embed-text-v1.5"
+
+export async function getEmbedding(data: string, model: string): Promise<number[]> {
   console.log("Iniciando embedding com Nomic (via axios)...");
   
   const apiKey = process.env.NOMIC_API_KEY;
@@ -23,7 +25,7 @@ export async function getEmbedding(data: string): Promise<number[]> {
   
   const payload: EmbedRequestPayload = {
     texts: [data],
-    model: "nomic-embed-text-v1", // ou "nomic-embed-text-v1.5"
+    model: model as embbedingModel, // ou "nomic-embed-text-v1.5"
     task_type: "search_document",   // Usado para indexação de documentos
   };
   
