@@ -1,7 +1,9 @@
 // src/swaggerOptions.ts
+import LLMSwagger from "../controllers/llm/swagger";
 import SyllabusSwagger from "../controllers/syllabus/swagger";
 
 const syllabusSwagger = new SyllabusSwagger();
+const llmSwagger = new LLMSwagger();
 
 const swaggerOptions = {
   swaggerDefinition: {
@@ -13,10 +15,12 @@ const swaggerOptions = {
     },
     paths: {
       ...syllabusSwagger.swaggerController,
+      ...llmSwagger.swaggerController
     },
     components: {
       schemas: {
         ...syllabusSwagger.schemas,
+        ...llmSwagger.schemas
       },
     },
   },

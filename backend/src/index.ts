@@ -45,6 +45,7 @@ class HttpServer {
 
   setupRoutes(controllers: Controllers) {
     this.app.use(controllers.syllabusController.router);
+    this.app.use(controllers.llmController.router);
   }
 
   getExpressApp(): express.Application {
@@ -56,5 +57,5 @@ const httpServer = new HttpServer();
 httpServer.setup();
 const app = httpServer.getExpressApp();
 app.listen(8500, "0.0.0.0", () => {
-  console.log("Server is running on port 8500");
+  console.log("Server is running on http://localhost:8500/api-docs");
 });
