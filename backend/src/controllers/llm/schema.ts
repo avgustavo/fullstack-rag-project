@@ -15,10 +15,20 @@ export const searchLogRes = z.object({
   llmModel: z.string(),
   answer: z.string(),
   retrievedDocs: z.array(z.object({})),
-  time_ms: z.number(),
+  timeMs: z.number(),
+  totalTime: z.number().optional(),
   createdAt: z.string(),
+});
+
+export const FilterSearchSchema = z.object({
+  courseName: z.array(z.string()).optional(),
+  universityCode: z.array(z.string()).optional(),
+  semester: z.array(z.union([z.number(), z.string()])).optional(),
+  wantFileUrl: z.boolean().optional(),
+  questionForContent: z.string().optional(),
 });
 
 // Exporta os tipos para facilitar o uso
 export type searchBodyType = z.infer<typeof searchBody>;
 export type searchLogResType = z.infer<typeof searchLogRes>;
+export type FilterSearchType = z.infer<typeof FilterSearchSchema>;

@@ -11,27 +11,31 @@ type EmbedRequestPayload = {
   // dimensionality?: number;
 };
 
-export type embbedingModel = "nomic-embed-text-v1" | "nomic-embed-text-v1.5"
+export type embbedingModel = "nomic-embed-text-v1" | "nomic-embed-text-v1.5";
 
-export async function getEmbedding(data: string, model: string): Promise<number[]> {
+export async function getEmbedding(
+  data: string,
+  model: string,
+  task_type?: "search_document" | "search_query" | "classification" | "clustering",
+): Promise<number[]> {
   console.log("Iniciando embedding com Nomic (via axios)...");
-  
+
   const apiKey = process.env.NOMIC_API_KEY;
   if (!apiKey) {
     throw new Error("NOMIC_API_KEY não está definida.");
   }
-  
+
   const url = "https://api-atlas.nomic.ai/v1/embedding/text";
-  
+
   const payload: EmbedRequestPayload = {
     texts: [data],
     model: model as embbedingModel, // ou "nomic-embed-text-v1.5"
-    task_type: "search_document",   // Usado para indexação de documentos
+    task_type: task_type ? task_type : "search_document", // Usado para indexação de documentos
   };
-  
+
   const headers = {
     "Content-Type": "application/json",
-    "Authorization": `Bearer ${apiKey}`,
+    Authorization: `Bearer ${apiKey}`,
   };
 
   try {
