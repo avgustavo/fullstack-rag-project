@@ -1,4 +1,4 @@
-export type llmModel = "groq" | "hf";
+export type llmModel = "groq" | "hf" | "gemma";
 
 export interface messageInterface {
   role: string;

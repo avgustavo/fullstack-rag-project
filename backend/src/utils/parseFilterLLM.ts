@@ -24,7 +24,7 @@ Não escreva nada além do JSON.
 
 export async function parseFilterLLM(
   userQuestion: string,
-  llm: "hf" | "groq",
+  llm: "hf" | "groq" | "gemma",
 ): Promise<FilterSearchType> {
   const messages = [
     {

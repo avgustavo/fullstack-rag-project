@@ -17,38 +17,61 @@ export async function callLLM(prompt: string | messageInterface[], llm: llmModel
   } else if (Array.isArray(prompt)) {
     messages = prompt;
   }
-  if (llm === "hf") {
-    // ==============================
-    // 1. Hugging Face Chat Completion
-    // ==============================
 
-    const hf = new HfInference(process.env.HUGGING_FACE_ACCESS_TOKEN);
+  if (llm === "gemma") {
+    // ======================
+    // 2. Groq Chat Completion
+    // ======================
 
-    // Ajuste conforme o modelo que você quer usar
-    // Observação: nem todos os modelos na Hugging Face suportam chatCompletion
-    const model = hf.endpoint(
-      "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.3",
-    );
+    // Usa a biblioteca groq-sdk
+    const groq = new Groq({ apiKey: process.env.GROQ_API_KEY || "" });
+    // Ajuste o model conforme necessário
+    const model = process.env.GROQ_MODEL_NAME || "gemma2-9b-it";
 
     try {
-      // O método chatCompletion no @huggingface/inference precisa de:
-      //  - model: string
-      //  - messages: Mensagens do chat
-      //  - max_tokens, temperature (opcionais, se suportado pelo modelo)
-      const response = await hf.chatCompletion({
+      const completion = await groq.chat.completions.create({
+        messages: messages as any,
         model,
-        messages: messages,
-        max_tokens: 200,
-        temperature: 0.7,
+        // se quiser: temperature, max_tokens, etc.
       });
-
-      // O retorno normalmente é: { choices: [ { message: { content: '...' } } ] }
-      return `${response.choices[0].message.content}`;
+      return `${completion.choices[0].message.content}`;
     } catch (error) {
-      console.error("Erro na chamada HF ChatCompletion:", error);
-      return "Desculpe, ocorreu um erro ao gerar a resposta (HF).";
+      console.error("Erro na chamada 'gemma2-9b-it' ChatCompletion:", error);
+      return "Desculpe, ocorreu um erro ao gerar a resposta (Groq).";
     }
-  } else if (llm === "groq") {
+  }
+
+  // if (llm === "hf") {
+  //   // ==============================
+  //   // 1. Hugging Face Chat Completion
+  //   // ==============================
+
+  //   const hf = new HfInference(process.env.HUGGING_FACE_ACCESS_TOKEN);
+
+  //   // Ajuste conforme o modelo que você quer usar
+  //   // Observação: nem todos os modelos na Hugging Face suportam chatCompletion
+  //   const model = hf.endpoint(
+  //     "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.3",
+  //   );
+  //   console.log("aqui");
+  //   try {
+  //     // O método chatCompletion no @huggingface/inference precisa de:
+  //     //  - model: string
+  //     //  - messages: Mensagens do chat
+  //     //  - max_tokens, temperature (opcionais, se suportado pelo modelo)
+  //     const response = await hf.chatCompletion({
+  //       model: "mistralai/Mistral-7B-Instruct-v0.2",
+  //       messages: messages,
+  //       max_tokens: 200,
+  //     });
+
+  //     // O retorno normalmente é: { choices: [ { message: { content: '...' } } ] }
+  //     return `${response.choices[0].message.content}`;
+  //   } catch (error) {
+  //     console.error("Erro na chamada HF ChatCompletion:", error);
+  //     return "Desculpe, ocorreu um erro ao gerar a resposta (HF).";
+  //   }
+  else if (llm === "groq") {
     // ======================
     // 2. Groq Chat Completion
     // ======================
@@ -66,8 +89,8 @@ export async function callLLM(prompt: string | messageInterface[], llm: llmModel
       });
       return `${completion.choices[0].message.content}`;
     } catch (error) {
-      console.error("Erro na chamada Groq ChatCompletion:", error);
-      return "Desculpe, ocorreu um erro ao gerar a resposta (Groq).";
+      console.error("Erro na chamada 'llama' ChatCompletion:", error);
+      return "Desculpe, ocorreu um erro ao gerar a resposta (llama).";
     }
   }
 

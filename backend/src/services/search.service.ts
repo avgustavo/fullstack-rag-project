@@ -27,7 +27,7 @@ export class SearchService {
     const startTime = Date.now();
 
     // 1) Gera embedding da pergunta
-    const questionEmbedding = await getEmbedding(question, emb); // Marca o início (para medir tempo)
+    const questionEmbedding = await getEmbedding(question, emb, "search_query"); // Marca o início (para medir tempo)
     console.log(questionEmbedding.length);
     try {
       let flag = "";
@@ -148,15 +148,17 @@ export class SearchService {
         : [];
       const courseName = filterData.courseName
         ? filterData.courseName.map((word) =>
-            word.replace(/[a-zA-Z]+/g, (match) => match.toLowerCase()),
+            word
+              .toLowerCase()
+              .normalize("NFD")
+              .replace(/[\u0300-\u036f]/g, ""),
           )
         : [];
       const semester = filterData.semester ? filterData.semester : [];
 
       // Gera embedding pro questionForContent
-      const question = filterData.questionForContent ? filterData.questionForContent : "";
       const searchStartTime = Date.now();
-      const questionEmbedding = await getEmbedding(question, emb);
+      const questionEmbedding = await getEmbedding(question, emb, "search_query");
 
       // Adiciona etapa de busca vetorial
       pipeline.push({

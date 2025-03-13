@@ -119,11 +119,11 @@ class LLMSwagger {
         "500": { description: "Erro interno do servidor" },
       },
     },
-    hfSearchV1: {
+    gemmaSearchV1: {
       summary:
-        "Recuperação de geração utilizando o modelo 'hf' e o modelo de embbeding 'nomic-embed-text-v1'",
-      operationId: "hfSearchV1",
-      tags: ["Hugging Face"],
+        "Recuperação de geração utilizando o modelo 'gemma' e o modelo de embbeding 'nomic-embed-text-v1'",
+      operationId: "gemmaSearchV1",
+      tags: ["Gemma"],
       requestBody: {
         description: "Recebe a pergunta do usuário",
         required: true,
@@ -146,11 +146,11 @@ class LLMSwagger {
         "500": { description: "Erro interno do servidor" },
       },
     },
-    hfSearchV2: {
+    gemmaSearchV2: {
       summary:
-        "Recuperação de geração utilizando o modelo 'hf' e o modelo de embbeding 'nomic-embed-text-v1.5'",
-      operationId: "hfSearchV2",
-      tags: ["Hugging Face"],
+        "Recuperação de geração utilizando o modelo 'gemma' e o modelo de embbeding 'nomic-embed-text-v1.5'",
+      operationId: "gemmaSearchV2",
+      tags: ["Gemma"],
       requestBody: {
         description: "Recebe a pergunta do usuário",
         required: true,
@@ -173,11 +173,11 @@ class LLMSwagger {
         "500": { description: "Erro interno do servidor" },
       },
     },
-    hfFilterSearchV1: {
+    gemmaFilterSearchV1: {
       summary:
-        "Recuperação de geração com FILTROS utilizando o modelo 'hf' e o modelo de embbeding 'nomic-embed-text-v1'",
-      operationId: "hfFilterSearchV1",
-      tags: ["HF-Filtrado"],
+        "Recuperação de geração com FILTROS utilizando o modelo 'gemma' e o modelo de embbeding 'nomic-embed-text-v1'",
+      operationId: "gemmaFilterSearchV1",
+      tags: ["gemma-Filtrado"],
       requestBody: {
         description: "Recebe a pergunta do usuário",
         required: true,
@@ -200,11 +200,11 @@ class LLMSwagger {
         "500": { description: "Erro interno do servidor" },
       },
     },
-    hfFilterSearchV2: {
+    gemmaFilterSearchV2: {
       summary:
-        "Recuperação de geração com FILTROS o modelo 'hf' e o modelo de embbeding 'nomic-embed-text-v1.5'",
-      operationId: "hfFilterSearchV2",
-      tags: ["HF-Filtrado"],
+        "Recuperação de geração com FILTROS o modelo 'gemma' e o modelo de embbeding 'nomic-embed-text-v1.5'",
+      operationId: "gemmaFilterSearchV2",
+      tags: ["gemma-Filtrado"],
       requestBody: {
         description: "Recebe a pergunta do usuário",
         required: true,
@@ -242,17 +242,17 @@ class LLMSwagger {
     [`${this.route}/groqv2-filter`]: {
       post: this.swagger.groqFilterSearchV2,
     },
-    [`${this.route}/hfv1`]: {
-      post: this.swagger.hfSearchV1,
+    [`${this.route}/gemmav1`]: {
+      post: this.swagger.gemmaSearchV1,
     },
-    [`${this.route}/hfv2`]: {
-      post: this.swagger.hfSearchV2,
+    [`${this.route}/gemmav2`]: {
+      post: this.swagger.gemmaSearchV2,
     },
-    [`${this.route}/hfv1-filter`]: {
-      post: this.swagger.hfFilterSearchV1,
+    [`${this.route}/gemmav1-filter`]: {
+      post: this.swagger.gemmaFilterSearchV1,
     },
-    [`${this.route}/hfv2-filter`]: {
-      post: this.swagger.hfFilterSearchV2,
+    [`${this.route}/gemmav2-filter`]: {
+      post: this.swagger.gemmaFilterSearchV2,
     },
   };
 }

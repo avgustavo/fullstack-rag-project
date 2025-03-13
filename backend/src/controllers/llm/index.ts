@@ -82,14 +82,14 @@ class LLMController {
     }
   };
 
-  public hfSearchV1 = async (req: Request, res: Response): Promise<Response> => {
+  public gemmaSearchV1 = async (req: Request, res: Response): Promise<Response> => {
     try {
       // Validação dos dados enviados (incluindo fileUrl)
       const { prompt } = searchBody.parse(req.body);
       console.log("recebido o prompt");
 
       // Chama o service para realizar a ingestão da ementa
-      const logs = await this.searchService.searchRAG(prompt, "hf", "nomic-embed-text-v1");
+      const logs = await this.searchService.searchRAG(prompt, "gemma", "nomic-embed-text-v1");
 
       // Valida a resposta usando o schema de saída
       const parsedResult = searchLogRes.parse(logs);
@@ -100,13 +100,13 @@ class LLMController {
     }
   };
 
-  public hfSearchV2 = async (req: Request, res: Response): Promise<Response> => {
+  public gemmaSearchV2 = async (req: Request, res: Response): Promise<Response> => {
     try {
       // Validação dos dados enviados (incluindo fileUrl)
       const { prompt } = searchBody.parse(req.body);
 
       // Chama o service para realizar a ingestão da ementa
-      const logs = await this.searchService.searchRAG(prompt, "hf", "nomic-embed-text-v1.5");
+      const logs = await this.searchService.searchRAG(prompt, "gemma", "nomic-embed-text-v1.5");
 
       // Valida a resposta usando o schema de saída
       const parsedResult = searchLogRes.parse(logs);
@@ -117,14 +117,14 @@ class LLMController {
     }
   };
 
-  public hfFilterSearchV1 = async (req: Request, res: Response): Promise<Response> => {
+  public gemmaFilterSearchV1 = async (req: Request, res: Response): Promise<Response> => {
     try {
       // Validação dos dados enviados (incluindo fileUrl)
       const { prompt } = searchBody.parse(req.body);
       console.log("recebido o prompt");
 
       // Chama o service para realizar a ingestão da ementa
-      const logs = await this.searchService.filterSearch(prompt, "hf", "nomic-embed-text-v1");
+      const logs = await this.searchService.filterSearch(prompt, "gemma", "nomic-embed-text-v1");
 
       // Valida a resposta usando o schema de saída
       const parsedResult = searchLogRes.parse(logs);
@@ -135,13 +135,13 @@ class LLMController {
     }
   };
 
-  public hfFilterSearchV2 = async (req: Request, res: Response): Promise<Response> => {
+  public gemmaFilterSearchV2 = async (req: Request, res: Response): Promise<Response> => {
     try {
       // Validação dos dados enviados (incluindo fileUrl)
       const { prompt } = searchBody.parse(req.body);
 
       // Chama o service para realizar a ingestão da ementa
-      const logs = await this.searchService.filterSearch(prompt, "hf", "nomic-embed-text-v1.5");
+      const logs = await this.searchService.filterSearch(prompt, "gemma", "nomic-embed-text-v1.5");
 
       // Valida a resposta usando o schema de saída
       const parsedResult = searchLogRes.parse(logs);
@@ -167,18 +167,18 @@ class LLMController {
     this.router.post("/llm/groqv2-filter", async (req, res) => {
       await this.groqFilterSearchV2(req, res);
     });
-    this.router.post("/llm/hfv1", async (req, res) => {
-      await this.hfSearchV1(req, res);
+    this.router.post("/llm/gemmav1", async (req, res) => {
+      await this.gemmaSearchV1(req, res);
     });
-    this.router.post("/llm/hfv2", async (req, res) => {
-      await this.hfSearchV2(req, res);
+    this.router.post("/llm/gemmav2", async (req, res) => {
+      await this.gemmaSearchV2(req, res);
     });
     // Define a rota POST para ingestão das ementas
-    this.router.post("/llm/hfv1-filter", async (req, res) => {
-      await this.hfFilterSearchV1(req, res);
+    this.router.post("/llm/gemmav1-filter", async (req, res) => {
+      await this.gemmaFilterSearchV1(req, res);
     });
-    this.router.post("/llm/hfv2-filter", async (req, res) => {
-      await this.hfFilterSearchV2(req, res);
+    this.router.post("/llm/gemmav2-filter", async (req, res) => {
+      await this.gemmaFilterSearchV2(req, res);
     });
   }
 }

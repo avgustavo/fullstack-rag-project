@@ -39,4 +39,16 @@ EOF
     -d "$payload"
   
   echo -e "\n-----------------------------------\n"
+
+  echo "Enviando payload para $pdf_url:"
+  echo "$payload"
+  echo "Resposta:"
+  
+  # Executa a requisição curl
+  curl -X POST 'http://localhost:8500/syllabus/ingest-compare' \
+    -H 'accept: application/json' \
+    -H 'Content-Type: application/json' \
+    -d "$payload"
+  
+  echo -e "\n-----------------------------------\n"
 done
