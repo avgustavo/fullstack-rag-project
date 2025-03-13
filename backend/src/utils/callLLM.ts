@@ -1,5 +1,6 @@
 // src/utils/callLLM.ts
-import { llmModel } from "../services/search.service";
+import { llmModel } from "../types/allTypes";
+import { messageInterface } from "../types/allTypes";
 import { HfInference } from "@huggingface/inference";
 import Groq from "groq-sdk";
 
@@ -9,19 +10,25 @@ import Groq from "groq-sdk";
  * @param llm Qual LLM/endpoint será usado ('groq' ou 'hf').
  * @returns Resposta do modelo em formato de string
  */
-export async function callLLM(prompt: string, llm: llmModel): Promise<string> {
+export async function callLLM(prompt: string | messageInterface[], llm: llmModel): Promise<string> {
+  let messages: messageInterface[] = [];
+  if (typeof prompt === "string") {
+    messages = [{ role: "user", content: prompt }];
+  } else if (Array.isArray(prompt)) {
+    messages = prompt;
+  }
   if (llm === "hf") {
     // ==============================
     // 1. Hugging Face Chat Completion
     // ==============================
-    
+
     const hf = new HfInference(process.env.HUGGING_FACE_ACCESS_TOKEN);
 
     // Ajuste conforme o modelo que você quer usar
     // Observação: nem todos os modelos na Hugging Face suportam chatCompletion
     const model = hf.endpoint(
-        "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.3"
-       );
+      "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.3",
+    );
 
     try {
       // O método chatCompletion no @huggingface/inference precisa de:
@@ -30,9 +37,7 @@ export async function callLLM(prompt: string, llm: llmModel): Promise<string> {
       //  - max_tokens, temperature (opcionais, se suportado pelo modelo)
       const response = await hf.chatCompletion({
         model,
-        messages: [
-          { role: "user", content: prompt },
-        ],
+        messages: messages,
         max_tokens: 200,
         temperature: 0.7,
       });
@@ -43,12 +48,11 @@ export async function callLLM(prompt: string, llm: llmModel): Promise<string> {
       console.error("Erro na chamada HF ChatCompletion:", error);
       return "Desculpe, ocorreu um erro ao gerar a resposta (HF).";
     }
-
   } else if (llm === "groq") {
     // ======================
     // 2. Groq Chat Completion
     // ======================
-    
+
     // Usa a biblioteca groq-sdk
     const groq = new Groq({ apiKey: process.env.GROQ_API_KEY || "" });
     // Ajuste o model conforme necessário
@@ -56,12 +60,7 @@ export async function callLLM(prompt: string, llm: llmModel): Promise<string> {
 
     try {
       const completion = await groq.chat.completions.create({
-        messages: [
-          {
-            role: "user",
-            content: prompt,
-          },
-        ],
+        messages: messages as any,
         model,
         // se quiser: temperature, max_tokens, etc.
       });
