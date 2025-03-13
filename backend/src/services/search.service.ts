@@ -99,11 +99,11 @@ export class SearchService {
 
       // 5) Monta o objeto de log no formato desejado
       const logEntry: searchLogResType = {
-        id: new ObjectId().toString(), // ou crypto.randomUUID()
+        id: new ObjectId().toString(),
         question,
-        mode: "searchFilter",
-        embbedModel: emb, // Ajuste conforme sua lógica/variáveis
-        llmModel: llm, // Ajuste conforme sua lógica/variáveis
+        mode: "search",
+        embbedModel: emb,
+        llmModel: llm,
         answer,
         retrievedDocs,
         timeMs: timeMs,
@@ -233,7 +233,7 @@ export class SearchService {
       const logEntry: searchLogResType = {
         id: new ObjectId().toString(), // ou crypto.randomUUID()
         question,
-        mode: "search",
+        mode: "searchFilter",
         embbedModel: emb, // Ajuste conforme sua lógica/variáveis
         llmModel: llm, // Ajuste conforme sua lógica/variáveis
         answer,
